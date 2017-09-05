@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        document.write("*************欢迎使用万年历************<br />");
+        var year=parseInt(prompt("请选择年份："));
+        var month=parseInt(prompt("请选择月份："));
+        var days=0;   //存储当月的天数
+        var isRn;
+        /*判断是否是闰年*/
+        if(year%4==0&&!(year%100==0) || year %  400==0){//判断是否为闰年
+            isRn=true;   //闰年
+        }else{
+            isRn=false;    //平年
+        }
+        /*计算输入的年份之前的天数*/
+        var totalDays=0;
+        for(var i=1900;i<year;i++){
+            /*判断闰年或平年，并进行天数累加*/
+            if(i%4==0&&!(i%100==0) || i%400==0){//判断是否为闰年
+                    totalDays=totalDays+366;   //闰年366天
+            }else{
+                totalDays=totalDays+365;    //平年365天
+            }
+        }
+        /*计算输入月份之前的天数*/
+        var beforeDays=0;
+        for(var i=1;i<=month;i++){
+            switch(i){
+                case 1:
+                case 3:
+                case 5:
+                case 7:
+                case 8:
+                case 10:
+                case 12:
+                    days=31;
+                    break;
+                case 2:
+                    if(isRn){
+                        days=29;
+                    }else {
+                       days=28;
+                    }
+                    break;
+                default:
+                    days=30;
+                    break;
+            }
+            if(i<month){
+                beforeDays=beforeDays+days;
+            }
+        }
+        totalDays=totalDays+beforeDays;    //距离1900年1月1日的天数
+        /*计算星期几*/
+        var  firstDayOfMonth;    //存储当月第一天是星期几，星期日为0，星期一到星期六为1~6
+        var temp=1+totalDays%7;    //从1900年一月一日推算
+        if(temp==7){   //求当月第一天
+            firstDayOfMonth=0;  //周日
+        }else{
+            firstDayOfMonth=temp;
+        }
+        /*输出日历*/
+       document.write("星期日&nbsp;星期一&nbsp;星期二&nbsp;星期三&nbsp;星期四&nbsp;星期五&nbsp;星期六<br />")
+       for(var nullNo=0;nullNo<firstDayOfMonth;nullNo++){
+           document.write("&nbsp;&nbsp;&nbsp;&nbsp;");
+       }
+       for(var i=1;i<=days;i++){
+           if(i<10){
+               document.write("&nbsp;0"+i+"&nbsp;&nbsp;");
+           }else{
+               document.write("&nbsp;"+i+"&nbsp;&nbsp;");
+           }
+           if((totalDays+i-1)%7==5){  //如果当天为周六，输出换行
+              document.write("<br />");
+           }
+       }
+    </script>
+</body>
+</html>
